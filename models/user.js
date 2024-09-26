@@ -5,7 +5,7 @@ const create = async ({ email, password, username }) => { //async por la solicit
         text: `
         INSERT INTO users (email, password, username)
         VALUES ($1, $2, $3)
-        RETURNING email, username, uid
+        RETURNING email, username, uid, role_id
         `,
         values: [email, password, username] //destructory 
     }
@@ -34,10 +34,10 @@ const findAll = async () => {
         `
     }
     const { rows } = await db.query(query)
-    return rows
+    return rows //todas las filas
 }
 
-/*
+//buscar por id
 const findOneByUid = async (uid) => {
     const query = {
         text: `
@@ -50,11 +50,11 @@ const findOneByUid = async (uid) => {
     return rows[0]
 }
 
-const updateRoleVet = async (uid) => {
+const updateRoleAdm = async (uid) => {
     const query = {
         text: `
         UPDATE users
-        SET role_id = 2
+        SET role_id = 1
         WHERE uid = $1
         RETURNING *
         `,
@@ -63,12 +63,12 @@ const updateRoleVet = async (uid) => {
     const { rows } = await db.query(query)
     return rows[0]
 }
-*/
+
 //exports exportamos el objeto
 export const UserModel = {
     create,
     findOneByEmail,
     findAll,
-    //findOneByUid,
-   // updateRoleVet
+    findOneByUid,
+    updateRoleAdm
 }
