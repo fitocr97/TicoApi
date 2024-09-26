@@ -44,9 +44,43 @@ const register = async(req, res) => {
     }
 }
 
-
+// /tico/v1/users/login
 const login = async(req, res) =>{
     try{
+        const { email, password } = req.body //destructory
+
+        //si vienen datos
+        if (!email || !password) {
+            return res
+                .status(400)
+                .json({ error: "Missing required fields: email, password" });
+        }
+
+        //verificar si el user no existe
+        const user = await UserModel.findOneByEmail(email)
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        //comparar contraseñas
+        const isMatch = await bcryptjs.compare(password, user.password) 
+        //contraseña diferente
+        if (!isMatch) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+        //generar token
+        const token = jwt.sign({ email: user.email },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        )
+
+        return res.json({
+            ok: true, msg: {
+                token
+            }
+        })
 
     } catch (error){
         console.log(error)
@@ -57,43 +91,14 @@ const login = async(req, res) =>{
     }
 }
 
-/*
-
-
-// /api/v1/users/login
-const login = async (req, res) => {
+//ruta protegida
+const profile = async (req, res) => {
     try {
-        const { email, password } = req.body
 
-        if (!email || !password) {
-            return res
-                .status(400)
-                .json({ error: "Missing required fields: email, password" });
-        }
+        const user = await UserModel.findOneByEmail(req.email)  //buscar por email
+        
+        return res.json({ ok: true, msg: user })
 
-        const user = await UserModel.findOneByEmail(email)
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
-        const isMatch = await bcryptjs.compare(password, user.password)
-
-        if (!isMatch) {
-            return res.status(401).json({ error: "Invalid credentials" });
-        }
-
-        const token = jwt.sign({ email: user.email, role_id: user.role_id },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1h"
-            }
-        )
-
-        return res.json({
-            ok: true, msg: {
-                token, role_id: user.role_id
-            }
-        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -101,9 +106,10 @@ const login = async (req, res) => {
             msg: 'Error server'
         })
     }
-}*/
+}
 
 export const UserController = {
     register,
-    login
+    login,
+    profile
 }
