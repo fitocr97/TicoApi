@@ -32,8 +32,8 @@ const register = async(req, res) => {
                 expiresIn: "1h"
             }
         )
-
-        return res.status(201).json({ok: true, mgs: token, role_id: user.role_id})
+        
+        return res.status(201).json({ok: true, mgs: token})
 
     } catch (error){
         console.log(error)
@@ -111,7 +111,7 @@ const profile = async (req, res) => {
 const findAll = async (req, res) => {
     try {
         const users = await UserModel.findAll() //usa el model
-
+        console.log(users)
         return res.json({ ok: true, msg: users })
     } catch (error) {
         console.log(error)

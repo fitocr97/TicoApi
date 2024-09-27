@@ -5,7 +5,7 @@ const create = async ({ email, password, username }) => { //async por la solicit
         text: `
         INSERT INTO users (email, password, username)
         VALUES ($1, $2, $3)
-        RETURNING email, username, uid, role_id
+        RETURNING email, username, uid
         `,
         values: [email, password, username] //destructory 
     }
@@ -30,7 +30,13 @@ const findOneByEmail = async (email) => {
 const findAll = async () => {
     const query = {
         text: `
-        SELECT * FROM users
+        select 
+            u.username, 
+            u.email, 
+            r.name AS role_name 
+        from 
+            users u 
+        join roles r on u.role_id = r.rid
         `
     }
     const { rows } = await db.query(query)
