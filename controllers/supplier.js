@@ -18,8 +18,7 @@ const create = async(req, res) => {
             return res.status(409).json({ ok: false, msg: "Name already exists" })
         }
 
-
-        //registrar el usuario
+        //registrar
         const newSupplier = await SupplierModel.create({ name, type, product_id, location, contact_name, phone })
 
         return res.status(201).json({ok: true, mgs: newSupplier})

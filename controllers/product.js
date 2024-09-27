@@ -20,8 +20,7 @@ const create = async(req, res) => {
             return res.status(409).json({ ok: false, msg: "Name already exists" })
         }
 
-
-        //registrar el usuario
+        //registrar 
         const newProduct = await ProductModel.create({ name })
 
         return res.status(201).json({ok: true, mgs: newProduct.name})

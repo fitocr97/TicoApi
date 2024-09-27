@@ -3,6 +3,7 @@ import express from 'express';
 import userRouter from './routes/user.js'
 import productRouter from './routes/product.js'
 import supplierRouter from './routes/supplier.js'
+import entriesRouter from './routes/entry.js'
 
 import cors from "cors";
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 app.use('/tico/v1/users', userRouter)
 app.use('/tico/v1/products', productRouter)
 app.use('/tico/v1/suppliers', supplierRouter)
+app.use('/tico/v1/entries', entriesRouter)
 
 const PORT = process.env.PORT || 3000;
 
