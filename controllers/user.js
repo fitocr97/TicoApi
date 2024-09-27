@@ -33,7 +33,7 @@ const register = async(req, res) => {
             }
         )
 
-        return res.status(201).json({ok: true, mgs: token})
+        return res.status(201).json({ok: true, mgs: token, role_id: user.role_id})
 
     } catch (error){
         console.log(error)
@@ -78,7 +78,7 @@ const login = async(req, res) =>{
 
         return res.json({
             ok: true, msg: {
-                token
+                token, role_id: user.role_id
             }
         })
 

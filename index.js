@@ -1,6 +1,9 @@
 import 'dotenv/config'   //leer variables entorno
 import express from 'express';
 import userRouter from './routes/user.js'
+import productRouter from './routes/product.js'
+import supplierRouter from './routes/supplier.js'
+
 import cors from "cors";
 
 const app = express();
@@ -17,6 +20,8 @@ app.get('/', (req, res) => {
 });*/
 
 app.use('/tico/v1/users', userRouter)
+app.use('/tico/v1/products', productRouter)
+app.use('/tico/v1/suppliers', supplierRouter)
 
 const PORT = process.env.PORT || 3000;
 
