@@ -33,10 +33,6 @@ const findAll = async () => {
         text: `
         SELECT 
             s.name AS supplier_name,
-            s.type AS supplier_type,
-            s.location AS supplier_location,
-            s.contact_name AS supplier_contact_name,
-            s.phone AS supplier_phone,
             p.name AS product_name,
             e.amount,
             e.date
