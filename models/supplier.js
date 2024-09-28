@@ -31,7 +31,18 @@ const findOneByName = async (name) => {
 const findAll = async () => {
     const query = {
         text: `
-        SELECT * FROM suppliers
+        select 
+            s.name, 
+            s.type, 
+            p.name AS 
+            product_name, 
+            s.location,
+            s.contact_name, 
+            s.phone 
+        FROM
+            suppliers s
+        JOIN 
+            products p ON s.product_id = p.pid;
         `
     }
     const { rows } = await db.query(query)
