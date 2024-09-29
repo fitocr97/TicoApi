@@ -32,6 +32,7 @@ const findAll = async () => {
     const query = {
         text: `
         select 
+            s.sid,
             s.name, 
             s.type, 
             p.name AS 
